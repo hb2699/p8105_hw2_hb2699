@@ -4,6 +4,7 @@ author: "Han Bao"
 date: "`r Sys.Date()`"
 output: html_document
 ---
+# `r "1. NYC data"`
 ```{r}
 library(tidyverse)
 ```
@@ -18,7 +19,7 @@ skimr::skim(NYC_data)
 #git push -f origin main
 ```
 
-# `r "1. NYC data"`
+
 #### `r "variables description"`
 This dataset contains line, station, name, station latitude / longitude, routes served, entry, vending, entrance type, and ADA compliance.The steps I did so far is standardizing the name of the variables and changing the entry variable from yes/no to 1/0. The dimension of the dataset is 1868*32. I would say the dataset is tidy since every column is a variable and every row is an observation.
 
