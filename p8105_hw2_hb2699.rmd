@@ -20,6 +20,5 @@ skimr::skim(NYC_data)
 
 # `r "1. NYC data"`
 #### `r "variables description"`
-rite a short paragraph about this dataset – explain briefly what variables the dataset contains, describe your data cleaning steps so far, and give the dimension (rows x columns) of the resulting dataset. Are these data tidy?
-This dataset contains division, line, station name, station latitude and longitude, its routes, entrance type, 
+This dataset contains line, station, name, station latitude / longitude, routes served, entry, vending, entrance type, and ADA compliance.The steps I did so far is standardizing the name of the variables and changing the entry variable from yes/no to 1/0. The dimension of the dataset is 1868*32. I would say the dataset is tidy since every column is a variable and every row is an observation.
 
