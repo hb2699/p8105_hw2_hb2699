@@ -12,7 +12,14 @@ NYC_data = read_csv(file = "./NYC_Transit_Subway_Entrance_And_Exit_Data.csv")
 NYC_data = janitor::clean_names(NYC_data)
 ```
 ```{r}
+NYC_data2 = select(NYC_data,line, station_name, station_latitude, station_longitude,entry, vending, entrance_type,ada, route1:route11)
 NYC_data$entry<-ifelse(NYC_data$entry=="Yes",1,0)
+skimr::skim(NYC_data)
+#git push -f origin main
 ```
 
+# `r "1. NYC data"`
+#### `r "variables description"`
+rite a short paragraph about this dataset – explain briefly what variables the dataset contains, describe your data cleaning steps so far, and give the dimension (rows x columns) of the resulting dataset. Are these data tidy?
+This dataset contains division, line, station name, station latitude and longitude, its routes, entrance type, 
 
