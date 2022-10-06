@@ -87,7 +87,7 @@ trash$fromM <- c("Mr")
 trash2$fromF <- c("Prof")
 #left-join the two datasets
 trash3 = 
-  full_join(trash, trash2, by = "dumpster")
+  left_join(trash, trash2, by = "dumpster")
 #the total weight of trash collected by Professor Trash Wheel
 sum(trash2$weight_tons)
 #the total number of sports balls collected by Mr. Trash Wheel in 2020
@@ -98,18 +98,59 @@ The number of observations in the resulting dataset 548. Key vatiables include: 
 
 # `r "3. 538"`
 ```{r}
+#read in the files
 snp = read_csv(file = "./snp.csv")
 pols = read_csv(file = "./pols-month.csv")
 une = read_csv(file = "./unemployment.csv")
 ```
 ```{r}
+#separate the date into three variables
 pols = separate(pols, col = mon, into = c('year','month','day'), sep = '-')
 ```
 ```{r}
+#replace month number with month name
 pols$month = as.numeric(pols$month)
-month.abb[pols$month]
-
+pols$month <- month.abb[pols$month]
+ 
 ```
+```{r}
+#replace varibales and drop the useless variables
+pols =mutate(pols, president = ifelse(prez_gop == "0","dem","gop"))
+pols = select(pols, -prez_dem, -prez_gop,-day)
+pols = janitor::clean_names(pols)
+```
+```{r}
+#do the same process to data in snp.csv
+snp = janitor::clean_names(snp)
+snp = mutate(snp, date = lubridate::parse_date_time2(date,orders ="mdy", cutoff_2000 = 23))
+```
+```{r}
+#separate the date into three variables
+snp = separate(snp, col = date, into = c('year','month','day'), sep = '-')
+```
+```{r}
+#replace month number with month name
+snp$month = as.numeric(snp$month)
+snp$month <- month.abb[snp$month]
+snp = select(snp,-day)
+#arrange the dataset according to year and month
+snp = arrange(snp,year,month)
+
+ 
+```
+```{r}
+#merge 
+une = pivot_longer(une,Jan:Dec, names_to = "month", values_to = "unemployment_rate") 
+une = janitor:: clean_names(une)
+```
+```{r}
+# merge 
+merge1 = left_join(pols, snp, by = "year","month")
+#colnames(merge1)[3] <- "month"
+#merge2 = left_Join(merge1, une, by = c("year","month"))
+```
+
+
 
 
 
