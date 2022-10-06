@@ -146,8 +146,11 @@ une = janitor:: clean_names(une)
 ```{r}
 # merge 
 merge1 = left_join(pols, snp, by = "year","month")
-#colnames(merge1)[3] <- "month"
-#merge2 = left_Join(merge1, une, by = c("year","month"))
+```
+```{r}
+colnames(merge1)[2] <- "month"
+merge1$year = as.numeric(merge1$year)
+merge2 = left_join(merge1, une, by = "year","month")
 ```
 
 
