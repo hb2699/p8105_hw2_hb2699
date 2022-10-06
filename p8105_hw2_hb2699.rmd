@@ -153,7 +153,7 @@ merge1$year = as.numeric(merge1$year)
 merge2 = left_join(merge1, une, by = "year","month")
 ```
 
-
+The key variables are year and month with 113124 observations.
 
 
 
