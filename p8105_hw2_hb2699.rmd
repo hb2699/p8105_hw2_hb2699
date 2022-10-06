@@ -87,7 +87,7 @@ trash$fromM <- c("Mr")
 trash2$fromF <- c("Prof")
 #left-join the two datasets
 trash3 = 
-  left_join(trash, trash2, by = "dumpster","month")
+  full_join(trash, trash2, by = "dumpster")
 #the total weight of trash collected by Professor Trash Wheel
 sum(trash2$weight_tons)
 #the total number of sports balls collected by Mr. Trash Wheel in 2020
@@ -95,6 +95,23 @@ sum(trash[which(trash$year=='2020'),"sports_balls"])
 ```
 
 The number of observations in the resulting dataset 548. Key vatiables include: the date of each collection(e.g. date.x), the source of the collection(e.g. fromM), the type of the collection(e.g. plastic_bottles.x), weight of the collection(weight_tons.y) and etc. The total weight of trash collected by Professor Trash Wheel is 380.24 tons.The total number of sports balls collected by Mr. Trash Wheel in 2020 is 856.
+
+# `r "3. 538"`
+```{r}
+snp = read_csv(file = "./snp.csv")
+pols = read_csv(file = "./pols-month.csv")
+une = read_csv(file = "./unemployment.csv")
+```
+```{r}
+pols = separate(pols, col = mon, into = c('year','month','day'), sep = '-')
+```
+```{r}
+pols$month = as.numeric(pols$month)
+month.abb[pols$month]
+
+```
+
+
 
 
 
