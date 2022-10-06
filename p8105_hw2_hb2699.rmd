@@ -78,6 +78,23 @@ mr_trash_df= readxl::read_excel("./Trash Wheel Collection Data.xlsx",
 trash = janitor::clean_names(mr_trash_df)
 trash$sports_balls = as.integer(trash$sports_balls)
 ```
+```{r}
+mr_trash_df2= readxl::read_excel("./Trash Wheel Collection Data.xlsx", 
+                                 sheet = "Professor Trash Wheel",
+                                 range = cellranger::cell_cols("A:N"))
+trash2 = janitor::clean_names(mr_trash_df2)
+trash$fromM <- c("Mr")
+trash2$fromF <- c("Prof")
+#left-join the two datasets
+trash3 = 
+  left_join(trash, trash2, by = "dumpster","month")
+#the total weight of trash collected by Professor Trash Wheel
+sum(trash2$weight_tons)
+#the total number of sports balls collected by Mr. Trash Wheel in 2020
+sum(trash[which(trash$year=='2020'),"sports_balls"])
+```
+
+The number of observations in the resulting dataset 548. Key vatiables include: the date of each collection(e.g. date.x), the source of the collection(e.g. fromM), the type of the collection(e.g. plastic_bottles.x), weight of the collection(weight_tons.y) and etc. The total weight of trash collected by Professor Trash Wheel is 380.24 tons.The total number of sports balls collected by Mr. Trash Wheel in 2020 is 856.
 
 
 

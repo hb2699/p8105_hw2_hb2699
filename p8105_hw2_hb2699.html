@@ -967,6 +967,38 @@ exits are without vending allow entrance.</p>
 ## 17 Howard Beach                  Rockaway</code></pre>
 </div>
 </div>
+<div id="trashwheel-data" class="section level1">
+<h1>2. TrashWheel data</h1>
+<pre class="r"><code>mr_trash_df= readxl::read_excel(&quot;./Trash Wheel Collection Data.xlsx&quot;, 
+                                 sheet = &quot;Mr. Trash Wheel&quot;,
+                                 range = cellranger::cell_cols(&quot;A:N&quot;))
+trash = janitor::clean_names(mr_trash_df)
+trash$sports_balls = as.integer(trash$sports_balls)</code></pre>
+<pre class="r"><code>mr_trash_df2= readxl::read_excel(&quot;./Trash Wheel Collection Data.xlsx&quot;, 
+                                 sheet = &quot;Professor Trash Wheel&quot;,
+                                 range = cellranger::cell_cols(&quot;A:N&quot;))</code></pre>
+<pre><code>## New names:
+## • `` -&gt; `...14`</code></pre>
+<pre class="r"><code>trash2 = janitor::clean_names(mr_trash_df2)
+trash$fromM &lt;- c(&quot;Mr&quot;)
+trash2$fromF &lt;- c(&quot;Prof&quot;)
+#left-join the two datasets
+trash3 = 
+  left_join(trash, trash2, by = &quot;dumpster&quot;,&quot;month&quot;)
+#the total weight of trash collected by Professor Trash Wheel
+sum(trash2$weight_tons)</code></pre>
+<pre><code>## [1] 380.24</code></pre>
+<pre class="r"><code>#the total number of sports balls collected by Mr. Trash Wheel in 2020
+sum(trash[which(trash$year==&#39;2020&#39;),&quot;sports_balls&quot;])</code></pre>
+<pre><code>## [1] 856</code></pre>
+<p>The number of observations in the resulting dataset 548. Key
+vatiables include: the date of each collection(e.g. date.x), the source
+of the collection(e.g. fromM), the type of the
+collection(e.g. plastic_bottles.x), weight of the
+collection(weight_tons.y) and etc. The total weight of trash collected
+by Professor Trash Wheel is 380.24 tons.The total number of sports balls
+collected by Mr. Trash Wheel in 2020 is 856.</p>
+</div>
 
 
 
