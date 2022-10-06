@@ -21,5 +21,38 @@ skimr::skim(NYC_data)
 
 
 #### `r "variables description"`
-This dataset contains line, station, name, station latitude / longitude, routes served, entry, vending, entrance type, and ADA compliance.The steps I did so far is standardizing the name of the variables and changing the entry variable from yes/no to 1/0. The dimension of the dataset is 1868*32. I would say the dataset is tidy since every column is a variable and every row is an observation.
+This dataset contains line, station, name, station latitude / longitude, routes served, entry, vending, entrance type, and ADA compliance.The steps I did so far is standardizing the name of the variables and changing the entry variable from yes/no to 1/0. The dimension of the dataset is 1868*32. I would say the dataset is not tidy enough since the route varibale takes 11 columns.
+
+#### `r "Questions"`
+1.We can see from the codes below that there are 465 distinct stations in this dataset.
+
+```{r}
+library(dplyr)
+NYC_data2$dis_station <- paste(NYC_data2$line, NYC_data2$station_name)
+distinct(NYC_data2, dis_station)
+```
+2.From the code below we can see that there are 468 compliant ada.
+```{r}
+sum(NYC_data2$ada, na.rm = TRUE)
+```
+3.We can see from the below code that 9.797% of station entrances / exits are without vending allow entrance.
+```{r}
+filter(NYC_data2, vending =="NO")
+filter(NYC_data2, vending =="YES")
+183/(183+1685)
+```
+
+```{r}
+NYC_data2= 
+  pivot_longer(
+    NYC_data2, 
+    route1:route11,
+    names_to = "Route_name",
+    values_to = "Route_num")
+```
+
+```{r}
+NYC_data2$routes <- paste(NYC_data2$route1, NYC_data2$route2,NYC_data2$route3,NYC_data2$route4,NYC_data2$route5,NYC_data2$route6,NYC_data2$route7,NYC_data2$route8,NYC_data2$route9,NYC_data2$route10,NYC_data2$route11)
+NYC_data2$n_routes <- nchar(NYC_data2$routes)
+```
 
