@@ -70,8 +70,13 @@ NYC_data %>%
   select(station_name, line) %>% 
   distinct
 ```
+# `r "2. TrashWheel data"`
 ```{r}
-
+mr_trash_df= readxl::read_excel("./Trash Wheel Collection Data.xlsx", 
+                                 sheet = "Mr. Trash Wheel",
+                                 range = cellranger::cell_cols("A:N"))
+trash = janitor::clean_names(mr_trash_df)
+trash$sports_balls = as.integer(trash$sports_balls)
 ```
 
 
