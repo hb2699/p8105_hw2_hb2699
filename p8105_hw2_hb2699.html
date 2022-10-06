@@ -381,17 +381,10 @@ pre code {
 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()</code></pre>
-<pre class="r"><code>NYC_data = read_csv(file = &quot;./NYC_Transit_Subway_Entrance_And_Exit_Data.csv&quot;)</code></pre>
-<pre><code>## Rows: 1868 Columns: 32
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr (22): Division, Line, Station Name, Route1, Route2, Route3, Route4, Rout...
-## dbl  (8): Station Latitude, Station Longitude, Route8, Route9, Route10, Rout...
-## lgl  (2): ADA, Free Crossover
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>NYC_data = janitor::clean_names(NYC_data)</code></pre>
+<pre class="r"><code>NYC_data = read_csv(file = &quot;./NYC_Transit_Subway_Entrance_And_Exit_Data.csv&quot;,
+                    col_types = cols(Route8 = &quot;c&quot;, Route9 = &quot;c&quot;, Route10 = &quot;c&quot;, Route11 = &quot;c&quot;))
+
+NYC_data = janitor::clean_names(NYC_data)</code></pre>
 <pre class="r"><code>NYC_data2 = select(NYC_data,line, station_name, station_latitude, station_longitude,entry, vending, entrance_type,ada, route1:route11)
 NYC_data$entry&lt;-ifelse(NYC_data$entry==&quot;Yes&quot;,1,0)
 skimr::skim(NYC_data)</code></pre>
@@ -420,7 +413,7 @@ skimr::skim(NYC_data)</code></pre>
 </tr>
 <tr class="even">
 <td align="left">character</td>
-<td align="left">21</td>
+<td align="left">25</td>
 </tr>
 <tr class="odd">
 <td align="left">logical</td>
@@ -428,7 +421,7 @@ skimr::skim(NYC_data)</code></pre>
 </tr>
 <tr class="even">
 <td align="left">numeric</td>
-<td align="left">9</td>
+<td align="left">5</td>
 </tr>
 <tr class="odd">
 <td align="left">________________________</td>
@@ -563,6 +556,46 @@ skimr::skim(NYC_data)</code></pre>
 <td align="right">2</td>
 <td align="right">0</td>
 <td align="right">7</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">route8</td>
+<td align="right">1820</td>
+<td align="right">0.03</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">route9</td>
+<td align="right">1840</td>
+<td align="right">0.01</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">route10</td>
+<td align="right">1845</td>
+<td align="right">0.01</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">route11</td>
+<td align="right">1845</td>
+<td align="right">0.01</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
 <td align="right">0</td>
 </tr>
 <tr class="odd">
@@ -739,7 +772,7 @@ skimr::skim(NYC_data)</code></pre>
 <tr class="odd">
 <td align="left">station_latitude</td>
 <td align="right">0</td>
-<td align="right">1.00</td>
+<td align="right">1</td>
 <td align="right">40.73</td>
 <td align="right">0.07</td>
 <td align="right">40.58</td>
@@ -752,7 +785,7 @@ skimr::skim(NYC_data)</code></pre>
 <tr class="even">
 <td align="left">station_longitude</td>
 <td align="right">0</td>
-<td align="right">1.00</td>
+<td align="right">1</td>
 <td align="right">-73.94</td>
 <td align="right">0.06</td>
 <td align="right">-74.03</td>
@@ -763,61 +796,9 @@ skimr::skim(NYC_data)</code></pre>
 <td align="left">▇▆▃▂▁</td>
 </tr>
 <tr class="odd">
-<td align="left">route8</td>
-<td align="right">1820</td>
-<td align="right">0.03</td>
-<td align="right">2.98</td>
-<td align="right">1.94</td>
-<td align="right">1.00</td>
-<td align="right">1.00</td>
-<td align="right">4.00</td>
-<td align="right">5.00</td>
-<td align="right">5.00</td>
-<td align="left">▇▁▁▂▇</td>
-</tr>
-<tr class="even">
-<td align="left">route9</td>
-<td align="right">1840</td>
-<td align="right">0.01</td>
-<td align="right">2.54</td>
-<td align="right">1.17</td>
-<td align="right">2.00</td>
-<td align="right">2.00</td>
-<td align="right">2.00</td>
-<td align="right">2.00</td>
-<td align="right">5.00</td>
-<td align="left">▇▁▁▁▂</td>
-</tr>
-<tr class="odd">
-<td align="left">route10</td>
-<td align="right">1845</td>
-<td align="right">0.01</td>
-<td align="right">3.00</td>
-<td align="right">0.00</td>
-<td align="right">3.00</td>
-<td align="right">3.00</td>
-<td align="right">3.00</td>
-<td align="right">3.00</td>
-<td align="right">3.00</td>
-<td align="left">▁▁▇▁▁</td>
-</tr>
-<tr class="even">
-<td align="left">route11</td>
-<td align="right">1845</td>
-<td align="right">0.01</td>
-<td align="right">7.00</td>
-<td align="right">0.00</td>
-<td align="right">7.00</td>
-<td align="right">7.00</td>
-<td align="right">7.00</td>
-<td align="right">7.00</td>
-<td align="right">7.00</td>
-<td align="left">▁▁▇▁▁</td>
-</tr>
-<tr class="odd">
 <td align="left">entry</td>
 <td align="right">0</td>
-<td align="right">1.00</td>
+<td align="right">1</td>
 <td align="right">0.00</td>
 <td align="right">0.00</td>
 <td align="right">0.00</td>
@@ -830,7 +811,7 @@ skimr::skim(NYC_data)</code></pre>
 <tr class="even">
 <td align="left">entrance_latitude</td>
 <td align="right">0</td>
-<td align="right">1.00</td>
+<td align="right">1</td>
 <td align="right">40.73</td>
 <td align="right">0.07</td>
 <td align="right">40.58</td>
@@ -843,7 +824,7 @@ skimr::skim(NYC_data)</code></pre>
 <tr class="odd">
 <td align="left">entrance_longitude</td>
 <td align="right">0</td>
-<td align="right">1.00</td>
+<td align="right">1</td>
 <td align="right">-73.86</td>
 <td align="right">3.42</td>
 <td align="right">-74.03</td>
@@ -862,8 +843,128 @@ skimr::skim(NYC_data)</code></pre>
 longitude, routes served, entry, vending, entrance type, and ADA
 compliance.The steps I did so far is standardizing the name of the
 variables and changing the entry variable from yes/no to 1/0. The
-dimension of the dataset is 1868*32. I would say the dataset is tidy
-since every column is a variable and every row is an observation.</p>
+dimension of the dataset is 1868*32. I would say the dataset is not tidy
+enough since the route varibale takes 11 columns.</p>
+</div>
+<div id="questions" class="section level4">
+<h4>Questions</h4>
+<p>1.We can see from the codes below that there are 465 distinct
+stations in this dataset.</p>
+<pre class="r"><code>library(dplyr)
+NYC_data2$dis_station &lt;- paste(NYC_data2$line, NYC_data2$station_name)
+distinct(NYC_data2, dis_station)</code></pre>
+<pre><code>## # A tibble: 465 × 1
+##    dis_station                      
+##    &lt;chr&gt;                            
+##  1 4 Avenue 25th St                 
+##  2 4 Avenue 36th St                 
+##  3 4 Avenue 45th St                 
+##  4 4 Avenue 53rd St                 
+##  5 4 Avenue 59th St                 
+##  6 4 Avenue 77th St                 
+##  7 4 Avenue 86th St                 
+##  8 4 Avenue 95th St                 
+##  9 4 Avenue 9th St                  
+## 10 4 Avenue Atlantic Av-Barclays Ctr
+## # … with 455 more rows</code></pre>
+<p>2.From the code below we can see that there are 468 compliant
+ada.</p>
+<pre class="r"><code>sum(NYC_data2$ada, na.rm = TRUE)</code></pre>
+<pre><code>## [1] 468</code></pre>
+<p>3.We can see from the below code that 9.797% of station entrances /
+exits are without vending allow entrance.</p>
+<pre class="r"><code>filter(NYC_data2, vending ==&quot;NO&quot;)</code></pre>
+<pre><code>## # A tibble: 183 × 20
+##    line        stati…¹ stati…² stati…³ entry vending entra…⁴ ada   route1 route2
+##    &lt;chr&gt;       &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;lgl&gt; &lt;chr&gt;  &lt;chr&gt; 
+##  1 4 Avenue    53rd St    40.6   -74.0 NO    NO      Stair   FALSE R      &lt;NA&gt;  
+##  2 4 Avenue    77th St    40.6   -74.0 NO    NO      Stair   FALSE R      &lt;NA&gt;  
+##  3 4 Avenue    9th St     40.7   -74.0 YES   NO      Stair   FALSE F      G     
+##  4 4 Avenue    Bay Ri…    40.6   -74.0 NO    NO      Stair   FALSE R      &lt;NA&gt;  
+##  5 42nd St Sh… Grand …    40.8   -74.0 NO    NO      Easeme… TRUE  GS     4     
+##  6 42nd St Sh… Grand …    40.8   -74.0 NO    NO      Stair   TRUE  GS     4     
+##  7 6 Avenue    7th Av     40.7   -74.0 YES   NO      Stair   FALSE F      &lt;NA&gt;  
+##  8 6 Avenue    7th Av     40.7   -74.0 YES   NO      Stair   FALSE F      &lt;NA&gt;  
+##  9 6 Avenue    7th Av     40.7   -74.0 YES   NO      Stair   FALSE F      &lt;NA&gt;  
+## 10 6 Avenue    7th Av     40.7   -74.0 YES   NO      Stair   FALSE F      &lt;NA&gt;  
+## # … with 173 more rows, 10 more variables: route3 &lt;chr&gt;, route4 &lt;chr&gt;,
+## #   route5 &lt;chr&gt;, route6 &lt;chr&gt;, route7 &lt;chr&gt;, route8 &lt;chr&gt;, route9 &lt;chr&gt;,
+## #   route10 &lt;chr&gt;, route11 &lt;chr&gt;, dis_station &lt;chr&gt;, and abbreviated variable
+## #   names ¹​station_name, ²​station_latitude, ³​station_longitude, ⁴​entrance_type</code></pre>
+<pre class="r"><code>filter(NYC_data2, vending ==&quot;YES&quot;)</code></pre>
+<pre><code>## # A tibble: 1,685 × 20
+##    line     station_…¹ stati…² stati…³ entry vending entra…⁴ ada   route1 route2
+##    &lt;chr&gt;    &lt;chr&gt;        &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;lgl&gt; &lt;chr&gt;  &lt;chr&gt; 
+##  1 4 Avenue 25th St       40.7   -74.0 YES   YES     Stair   FALSE R      &lt;NA&gt;  
+##  2 4 Avenue 25th St       40.7   -74.0 YES   YES     Stair   FALSE R      &lt;NA&gt;  
+##  3 4 Avenue 36th St       40.7   -74.0 YES   YES     Stair   FALSE N      R     
+##  4 4 Avenue 36th St       40.7   -74.0 YES   YES     Stair   FALSE N      R     
+##  5 4 Avenue 36th St       40.7   -74.0 YES   YES     Stair   FALSE N      R     
+##  6 4 Avenue 45th St       40.6   -74.0 YES   YES     Stair   FALSE R      &lt;NA&gt;  
+##  7 4 Avenue 45th St       40.6   -74.0 YES   YES     Stair   FALSE R      &lt;NA&gt;  
+##  8 4 Avenue 45th St       40.6   -74.0 YES   YES     Stair   FALSE R      &lt;NA&gt;  
+##  9 4 Avenue 45th St       40.6   -74.0 YES   YES     Stair   FALSE R      &lt;NA&gt;  
+## 10 4 Avenue 53rd St       40.6   -74.0 YES   YES     Stair   FALSE R      &lt;NA&gt;  
+## # … with 1,675 more rows, 10 more variables: route3 &lt;chr&gt;, route4 &lt;chr&gt;,
+## #   route5 &lt;chr&gt;, route6 &lt;chr&gt;, route7 &lt;chr&gt;, route8 &lt;chr&gt;, route9 &lt;chr&gt;,
+## #   route10 &lt;chr&gt;, route11 &lt;chr&gt;, dis_station &lt;chr&gt;, and abbreviated variable
+## #   names ¹​station_name, ²​station_latitude, ³​station_longitude, ⁴​entrance_type</code></pre>
+<pre class="r"><code>183/(183+1685)</code></pre>
+<pre><code>## [1] 0.09796574</code></pre>
+<pre class="r"><code>is.character(NYC_data2$route1)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>is.character(NYC_data2$route8)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>NYC_data %&gt;% 
+  pivot_longer(
+    route1:route11,
+    names_to = &quot;route_num&quot;,
+    values_to = &quot;route&quot;) %&gt;% 
+  filter(route == &quot;A&quot;) %&gt;% 
+  select(station_name, line) %&gt;% 
+  distinct</code></pre>
+<pre><code>## # A tibble: 60 × 2
+##    station_name                  line           
+##    &lt;chr&gt;                         &lt;chr&gt;          
+##  1 Times Square                  42nd St Shuttle
+##  2 125th St                      8 Avenue       
+##  3 145th St                      8 Avenue       
+##  4 14th St                       8 Avenue       
+##  5 168th St - Washington Heights 8 Avenue       
+##  6 175th St                      8 Avenue       
+##  7 181st St                      8 Avenue       
+##  8 190th St                      8 Avenue       
+##  9 34th St                       8 Avenue       
+## 10 42nd St                       8 Avenue       
+## # … with 50 more rows</code></pre>
+<pre class="r"><code>NYC_data %&gt;% 
+  pivot_longer(
+    route1:route11,
+    names_to = &quot;route_num&quot;,
+    values_to = &quot;route&quot;) %&gt;% 
+  filter(route == &quot;A&quot;, ada == TRUE) %&gt;% 
+  select(station_name, line) %&gt;% 
+  distinct</code></pre>
+<pre><code>## # A tibble: 17 × 2
+##    station_name                  line            
+##    &lt;chr&gt;                         &lt;chr&gt;           
+##  1 14th St                       8 Avenue        
+##  2 168th St - Washington Heights 8 Avenue        
+##  3 175th St                      8 Avenue        
+##  4 34th St                       8 Avenue        
+##  5 42nd St                       8 Avenue        
+##  6 59th St                       8 Avenue        
+##  7 Inwood - 207th St             8 Avenue        
+##  8 West 4th St                   8 Avenue        
+##  9 World Trade Center            8 Avenue        
+## 10 Times Square-42nd St          Broadway        
+## 11 59th St-Columbus Circle       Broadway-7th Ave
+## 12 Times Square                  Broadway-7th Ave
+## 13 8th Av                        Canarsie        
+## 14 Franklin Av                   Franklin        
+## 15 Euclid Av                     Fulton          
+## 16 Franklin Av                   Fulton          
+## 17 Howard Beach                  Rockaway</code></pre>
 </div>
 </div>
 

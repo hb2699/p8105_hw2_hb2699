@@ -9,15 +9,20 @@ output: html_document
 library(tidyverse)
 ```
 ```{r}
-NYC_data = read_csv(file = "./NYC_Transit_Subway_Entrance_And_Exit_Data.csv")
+NYC_data = read_csv(file = "./NYC_Transit_Subway_Entrance_And_Exit_Data.csv",
+                    col_types = cols(Route8 = "c", Route9 = "c", Route10 = "c", Route11 = "c"))
+
 NYC_data = janitor::clean_names(NYC_data)
 ```
+
+
 ```{r}
 NYC_data2 = select(NYC_data,line, station_name, station_latitude, station_longitude,entry, vending, entrance_type,ada, route1:route11)
 NYC_data$entry<-ifelse(NYC_data$entry=="Yes",1,0)
 skimr::skim(NYC_data)
 #git push -f origin main
 ```
+
 
 
 #### `r "variables description"`
@@ -41,18 +46,33 @@ filter(NYC_data2, vending =="NO")
 filter(NYC_data2, vending =="YES")
 183/(183+1685)
 ```
+```{r}
+is.character(NYC_data2$route1)
+is.character(NYC_data2$route8)
+```
 
 ```{r}
-NYC_data2= 
+NYC_data %>% 
   pivot_longer(
-    NYC_data2, 
     route1:route11,
-    names_to = "Route_name",
-    values_to = "Route_num")
+    names_to = "route_num",
+    values_to = "route") %>% 
+  filter(route == "A") %>% 
+  select(station_name, line) %>% 
+  distinct
+
+NYC_data %>% 
+  pivot_longer(
+    route1:route11,
+    names_to = "route_num",
+    values_to = "route") %>% 
+  filter(route == "A", ada == TRUE) %>% 
+  select(station_name, line) %>% 
+  distinct
+```
+```{r}
+
 ```
 
-```{r}
-NYC_data2$routes <- paste(NYC_data2$route1, NYC_data2$route2,NYC_data2$route3,NYC_data2$route4,NYC_data2$route5,NYC_data2$route6,NYC_data2$route7,NYC_data2$route8,NYC_data2$route9,NYC_data2$route10,NYC_data2$route11)
-NYC_data2$n_routes <- nchar(NYC_data2$routes)
-```
+
 
